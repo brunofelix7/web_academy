@@ -46,12 +46,12 @@
        <nav class="navbar navbar-default navbar-fixed">
          <div class="container-fluid">
            <div class="navbar-header">
-               <a class="navbar-brand" href="#"><?php echo 'Olá, ' . ucfirst(Session::getLoggedUser()) ?> </a>
+             <a class="navbar-brand" href="#"><?php echo "Olá, " . "<span class='label label-warning'>" . ucfirst(Session::getLoggedUser()) . "</span>" ?> </a>
            </div>
             <div class="collapse navbar-collapse">
               <ul class="nav navbar-nav navbar-right">
                 <li>
-                  <a href="#">
+                  <a href="../../controller/loginController/logout.php">
                     <p>Log out</p>
                   </a>
                 </li>

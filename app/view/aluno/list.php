@@ -1,5 +1,8 @@
 <?php
-  require('../../config/Session.php');
+  require('../../config/AppConfiguration.php');
+  $config = new AppConfiguration();
+  $alunoDAO = new AlunoDAO();
+  $result = $alunoDAO->findAll();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -17,6 +20,7 @@
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
   <link href="../../../assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 </head>
   <body>
   <div class="wrapper">
@@ -46,12 +50,12 @@
        <nav class="navbar navbar-default navbar-fixed">
          <div class="container-fluid">
            <div class="navbar-header">
-               <a class="navbar-brand" href="#"><?php echo 'Olá, ' . Session::getLoggedUser() ?> </a>
+               <a class="navbar-brand" href="#"><?php echo "Olá, " . "<span class='label label-warning'>" . ucfirst(Session::getLoggedUser()) . "</span>" ?> </a>
            </div>
             <div class="collapse navbar-collapse">
               <ul class="nav navbar-nav navbar-right">
                 <li>
-                  <a href="#">
+                  <a href="../../controller/loginController/logout.php">
                     <p>Log out</p>
                   </a>
                 </li>
@@ -68,43 +72,56 @@
               <div class="col-md-12">
                   <div class="card">
                       <div class="header">
-                          <h4 class="title">Listagem de alunos</h4>
-                          <p class="category">Visualize os alunos cadastrados</p>
-                          <button type="submit" class="btn btn-success btn-fill pull-right">Novo</button>
+                        <div class="row">
+                            <div class="col-md-9">
+                              <h4 class="title">Listagem de alunos</h4>
+                              <p class="category">Visualize os alunos cadastrados</p>
+                            </div>
+                            <div class="col-md-3">
+                              <a href="form.php" class="btn btn-success btn-fill pull-right"><i class="fas fa-user-plus"></i> Novo</a>
+                            </div>
+                        </div>
                       </div>
                       <div class="content table-responsive table-full-width">
                           <table class="table table-hover table-striped">
                               <thead>
-                                <th>ID</th>
-                                <th>Nome</th>
                                 <th>Matrícula</th>
-                                <th>Disciplinas</th>
+                                <th>Nome</th>
+                                <th>Status</th>
+                                <th>Ações</th>
                               </thead>
                               <tbody>
-                                  <tr>
-                                    <td>1</td>
-                                    <td>Dakota Rice</td>
-                                    <td>$36,738</td>
-                                    <td>Niger</td>
-                                  </tr>
-                                  <tr>
-                                    <td>2</td>
-                                    <td>Minerva Hooper</td>
-                                    <td>$23,789</td>
-                                    <td>Curaçao</td>
-                                  </tr>
-                                  <tr>
-                                    <td>3</td>
-                                    <td>Sage Rodriguez</td>
-                                    <td>$56,142</td>
-                                    <td>Netherlands</td>
-                                  </tr>
-                                  <tr>
-                                    <td>4</td>
-                                    <td>Philip Chaney</td>
-                                    <td>$38,735</td>
-                                    <td>Korea, South</td>
-                                  </tr>
+                                <?php
+                                  foreach ($result as $row) {
+                                ?>
+                                <tr>
+                                  <?php if($result != null){ ?>
+                                    <td><?php echo $row['matricula'] ?></td>
+                                    <td><?php echo $row['nome'] ?></td>
+                                    <!-- Buscar pelo disciplina_id e pegar o nome -->
+                                    <td>
+                                      <?php
+                                        if(round(($row['n1'] + $row['n2'] + $row['n3']) / 3, 2) < 7){
+                                          echo "<span class='label label-danger'>REPROVADO</span>";
+                                        }else{
+                                          echo "<span class='label label-success'>APROVADO</span>";
+                                        }
+                                      ?>
+                                    </td>
+                                    <td>
+                                      <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <a style="color:gray;" href="<?php echo 'details.php?id=' . $row['id'] ?>"><i class="fas fa-search"></i></i></a>
+                                        <a style="color:orange;" href="<?php echo 'edit.php?id=' . $row['id'] ?>"><i class="fas fa-edit"></i></i></a>
+                                        <a style="color:red;" href="<?php echo '../../controller/alunoController/deletar.php?id=' . $row['id'] ?>"><i class="fas fa-trash-alt"></i></a>
+                                      </div>
+                                    </td>
+                                  <?php } else { ?>
+                                    <td><?php echo 'Sem informações.' ?></td>
+                                  <?php } ?>
+                                </tr>
+                                <?php
+                                  }
+                                ?>
                               </tbody>
                           </table>
                       </div>

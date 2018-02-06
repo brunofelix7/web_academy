@@ -1,8 +1,10 @@
 <?php
   require('../../config/AppConfiguration.php');
   $config = new AppConfiguration();
+  $alunoDAO = new AlunoDAO();
   $disciplinaDAO = new DisciplinaDAO();
-  $result = $disciplinaDAO->findAll();
+  $aluno = $alunoDAO->findById($_GET['id']);
+  $disciplina = $disciplinaDAO->findById($aluno->getDisciplina_id());
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -20,7 +22,15 @@
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
   <link href="../../../assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <style>
+    hr {
+      border: none;
+      height: 1px;
+      color: #9E9E9E;
+      background-color: #9E9E9E;
+    }
+  </style>
 </head>
   <body>
   <div class="wrapper">
@@ -67,50 +77,63 @@
 
       <!-- Main -->
       <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card">
-              <div class="header">
-                <h4 class="title">Novo aluno</h4>
-              </div>
-                <div class="content">
-                  <form action="../../controller/alunoController/cadastrar.php" method="POST">
-                   <div class="row">
-                       <div class="col-md-12">
-                           <div class="form-group">
-                               <label>Nome</label>
-                               <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome..." />
-                           </div>
-                           <div class="form-group">
-                               <label>Matrícula</label>
-                               <input type="text" class="form-control" id="matricula" name="matricula" placeholder="Digite a matrícula..." />
-                           </div>
-                           <div class="form-group">
-                               <label>Disciplinas</label>
-                               <select class="form-control" name="disciplina">
-                                 <?php
-                                   foreach ($result as $row) {
-                                 ?>
-                                  <option value="<?php echo $row['id']; ?>">
-                                    <?php echo $row['nome']; ?>
-                                  </option>
-                                 <?php
-                                   }
-                                 ?>
-                               </select>
-                           </div>
-                       </div>
-                   </div>
-                   <button type="submit" class="btn btn-info btn-fill pull-left">Cadastrar</button>
-                    <div class="clearfix"></div>
-                  </form>
+        <div class="col-md-12">
+            <div class="card card-user" style="padding-bottom:15px;">
+                <div class="image">
+                    <img src="../../../assets/img/capa.jpeg" alt="..."/>
+                </div>
+                <div style="padding-bottom:0; min-height: 230px;" class="content">
+                    <div style="margin-bottom:10px;" class="author">
+                        <img class="avatar border-gray" src="../../../assets/img/ic_studant.png" alt="..."/>
+                          <h4 class="title"><?php echo $aluno->getNome(); ?><br />
+                             <small><?php echo $aluno->getMatricula(); ?></small>
+                          </h4>
+                    </div>
+                    <p class="description text-center"><?php echo $disciplina->getNome(); ?></p>
+                    <p class="description text-center">
+                      <?php
+                        if($aluno->getN1() < 7){
+                          echo "<i style='color:red;' class='far fa-file-alt'></i> " . number_format($aluno->getN1(), 2, ',', '.');
+                        }else{
+                          echo "<i style='color:green;' class='far fa-file-alt'></i> " . number_format($aluno->getN1(), 2, ',', '.');
+                        }
+                      ?>
+                    </p>
+                    <p class="description text-center">
+                    <?php
+                      if($aluno->getN2() < 7){
+                        echo "<i style='color:red;' class='far fa-file-alt'></i> " . number_format($aluno->getN2(), 2, ',', '.');
+                      }else{
+                        echo "<i style='color:green;' class='far fa-file-alt'></i> " . number_format($aluno->getN2(), 2, ',', '.');
+                      }
+                    ?>
+                  </p>
+                  <p class="description text-center">
+                  <?php
+                    if($aluno->getN3() < 7){
+                      echo "<i style='color:red;' class='far fa-file-alt'></i> " . number_format($aluno->getN3(), 2, ',', '.');
+                    }else{
+                      echo "<i style='color:green;' class='far fa-file-alt'></i> " . number_format($aluno->getN3(), 2, ',', '.');
+                    }
+                  ?>
+                </p>
+                </div>
+                <hr/>
+                <div class="text-center">
+                  <?php echo "Média: " . "<b>" . number_format($alunoDAO->calcMedia($aluno->getId()), 2, ",", ".") . "</b>"; ?>
+                </div>
+                <div class="text-center">
+                  <?php
+                    if(round(($aluno->getN1() + $aluno->getN2() + $aluno->getN3()) / 3, 2) < 7){
+                      echo "<span class='label label-danger'>REPROVADO</span>";
+                    }else{
+                      echo "<span class='label label-success'>APROVADO</span>";
+                    }
+                  ?>
                 </div>
             </div>
         </div>
-    </div>
-  </div>
-</div>
+      </div>
 
   <!-- FOOTER -->
   <footer class="footer">

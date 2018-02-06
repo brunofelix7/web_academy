@@ -50,12 +50,12 @@
        <nav class="navbar navbar-default navbar-fixed">
          <div class="container-fluid">
            <div class="navbar-header">
-               <h3 class="navbar-brand">Olá, <?php echo ucfirst(Session::getLoggedUser()) ?></h3>
+             <a class="navbar-brand" href="#"><?php echo "Olá, " . "<span class='label label-warning'>" . ucfirst(Session::getLoggedUser()) . "</span>" ?> </a>
            </div>
             <div class="collapse navbar-collapse">
               <ul class="nav navbar-nav navbar-right">
                 <li>
-                  <a href="#">
+                  <a href="../../controller/loginController/logout.php">
                     <p>Log out</p>
                   </a>
                 </li>
@@ -78,14 +78,13 @@
                               <p class="category">Visualize as disciplinas cadastrads</p>
                             </div>
                             <div class="col-md-3">
-                              <a href="form.php" class="btn btn-success btn-fill pull-right">Novo</a>
+                              <a href="form.php" class="btn btn-success btn-fill pull-right"><i class="fas fa-user-plus"></i> Novo</a>
                             </div>
                         </div>
                       </div>
                       <div class="content table-responsive table-full-width">
                           <table class="table table-hover table-striped">
                               <thead>
-                                <th>ID</th>
                                 <th>Nome</th>
                                 <th>Ações</th>
                               </thead>
@@ -95,7 +94,6 @@
                                 ?>
                                 <tr>
                                   <?php if($result != null){ ?>
-                                    <td><?php echo $row['id'] ?></td>
                                     <td><?php echo $row['nome'] ?></td>
                                     <td>
                                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">

@@ -72,7 +72,7 @@
           return null;
         endif;
       }catch(PDOException $e){
-        echo "Recurso não encontrado. " . $e->getMessage();
+        echo "Disciplinas não encontrados. " . $e->getMessage();
       }
     }
 

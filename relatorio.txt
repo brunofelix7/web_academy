@@ -1,0 +1,17 @@
+01. Padrão Singleton - utilizamos o padrão singleton por ele ser considerado uma boa prática de programação
+e ser um padrão que é implementado em quase todo projeto. Esse padrão faz com que seja criada apenas uma instancia de um
+objeto na aplicação para fazer esse acesso, economizando memória e evitando outras instâncias e conexões desnecessárias.
+
+02. Padrão DAO - Esse padrão foi usado devido também por ser considerado uma boa prática de programação, também é implementado
+na maioria dos projetos. Torna o código muito mais organizado você ter uma classe específica para fazer operações de banco de dados
+para cada entidade no seu projeto. E também por termos usado esse padrão quando vimos java web na graduação.
+
+03. MVC - Acho difícil hoje em dia vermos uma aplicação web e orientada a objetos sem utilizar esse padrão. Usamos para seguir as
+boas práticas de separar visão, modelo e controladores para uma melhor manutenção e entendimento do código.
+
+Login
+admin admin
+
+Senha do banco em config/Database.php
+
+Executar o Script.sql na raiz do projeto. Obs. Não usamos o phpMyAdmin e sim o Workbench

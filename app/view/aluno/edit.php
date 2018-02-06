@@ -1,8 +1,10 @@
 <?php
   require('../../config/AppConfiguration.php');
   $config = new AppConfiguration();
+  $alunoDAO = new AlunoDAO();
   $disciplinaDAO = new DisciplinaDAO();
   $result = $disciplinaDAO->findAll();
+  $aluno = $alunoDAO->findById($_GET['id']);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -72,19 +74,52 @@
           <div class="col-md-6">
             <div class="card">
               <div class="header">
-                <h4 class="title">Novo aluno</h4>
+                <h4 class="title">Editar aluno</h4>
               </div>
                 <div class="content">
-                  <form action="../../controller/alunoController/cadastrar.php" method="POST">
+                  <form action="../../controller/alunoController/editar.php" method="POST">
                    <div class="row">
                        <div class="col-md-12">
+                           <input type="hidden" id="id" name="id" value="<?php echo $_GET['id']; ?>">
                            <div class="form-group">
                                <label>Nome</label>
-                               <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome..." />
+                               <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome..." value="<?php echo $aluno->getNome(); ?>" />
                            </div>
                            <div class="form-group">
                                <label>Matrícula</label>
-                               <input type="text" class="form-control" id="matricula" name="matricula" placeholder="Digite a matrícula..." />
+                               <input type="text" class="form-control" id="matricula" name="matricula" placeholder="Digite a matrícula..." value="<?php echo $aluno->getMatricula(); ?>" />
+                           </div>
+                           <div class="row">
+                             <div class="form-group col-md-4">
+                                 <?php
+                                  if($aluno->getN1() < 7){
+                                    echo "<label style='color:red;'>Nota 1</label>";
+                                  }else{
+                                    echo "<label style='color:green;'>Nota 1</label>";
+                                  }
+                                  ?>
+                                 <input type="number" min="0" max="10" step="0.1" class="form-control" id="n1" name="n1" placeholder="Primeira nota..." value="<?php echo $aluno->getN1(); ?>" />
+                             </div>
+                             <div class="form-group col-md-4">
+                               <?php
+                                if($aluno->getN2() < 7){
+                                  echo "<label style='color:red;'>Nota 2</label>";
+                                }else{
+                                  echo "<label style='color:green;'>Nota 2</label>";
+                                }
+                                ?>
+                                 <input type="number" min="0" max="10" step="0.1" class="form-control" id="n2" name="n2" placeholder="Segunda nota..." value="<?php echo $aluno->getN2(); ?>" />
+                             </div>
+                             <div class="form-group col-md-4">
+                               <?php
+                                if($aluno->getN3() < 7){
+                                  echo "<label style='color:red;'>Nota 3</label>";
+                                }else{
+                                  echo "<label style='color:green;'>Nota 3</label>";
+                                }
+                                ?>
+                                 <input type="number" min="0" max="10" step="0.1" class="form-control" id="n3" name="n3" placeholder="Terceira nota..." value="<?php echo $aluno->getN3(); ?>" />
+                             </div>
                            </div>
                            <div class="form-group">
                                <label>Disciplinas</label>
@@ -92,7 +127,7 @@
                                  <?php
                                    foreach ($result as $row) {
                                  ?>
-                                  <option value="<?php echo $row['id']; ?>">
+                                  <option selected="<?php echo $aluno->getId(); ?>" value="<?php echo $row['id']; ?>">
                                     <?php echo $row['nome']; ?>
                                   </option>
                                  <?php
@@ -102,7 +137,7 @@
                            </div>
                        </div>
                    </div>
-                   <button type="submit" class="btn btn-info btn-fill pull-left">Cadastrar</button>
+                   <button type="submit" class="btn btn-info btn-fill pull-left">Atualizar</button>
                     <div class="clearfix"></div>
                   </form>
                 </div>
